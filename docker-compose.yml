@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  db:
+    image: docker.io/postgres:latest
+    volumes:
+      - dbdata:/var/lib/postgresql/data 
+    ports:
+      - 5432:5432
+    env_file:
+      - src/.env
+    
+volumes:
+  dbdata:
+    
