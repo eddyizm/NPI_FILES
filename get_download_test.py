@@ -1,36 +1,19 @@
-from selenium import webdriver
-from selenium.webdriver.edge.options import Options  # Make sure to import Edge Options
-from selenium.webdriver.common.by import By  # Import By for selecting elements
-import time
+import requests
 
-def setup_driver(download_path):
-    options = Options()
-    # options.use_chromium = True  # This line is optional and can be removed if causing issues
-    options.add_experimental_option("prefs", {
-        "download.default_directory": download_path,
-        "download.prompt_for_download": False,  # To disable the download prompt
-        "download.directory_upgrade": True,
-        "safebrowsing.enabled": True
-    })
-    driver = webdriver.Edge(options=options)  # Ensure the Edge driver executable is in your PATH or specify its path
-    return driver
+def download_file(url, target_path):
+    response = requests.get(url, allow_redirects=True)
+    response.raise_for_status()  # Raises an HTTPError if the HTTP request returned an unsuccessful status code
 
-def download_with_selenium(driver, url, download_link_css_selector):
-    driver.get(url)
-    download_button = driver.find_element(By.CSS_SELECTOR, download_link_css_selector)  # Use the updated method
-    download_button.click()
-    # Wait for download to start (you'll need to tune this)
-    time.sleep(10)
+    with open(target_path, 'wb') as f:
+        f.write(response.content)
+    print("Download completed!")
 
 def main():
-    url = 'https://download.cms.gov/nppes/NPI_Files.html'
-    download_link_css_selector = '#DDSMTH\\.ZIP\\.D231009'  # Replace with the actual selector, escape the period
-    download_path = r'C:\Users\sghal\Desktop\Download_NPI'  # Replace with your desired path
+    """Needs a way to change the URL every month. 'target_path' is the directory of your project"""
+    url = 'https://download.cms.gov/nppes/NPPES_Deactivated_NPI_Report_100923.zip'  # This URL will change every second Monday of the month.
+    target_path = r'your_directory\file.zip'  #make sure the file name is in the directory. Won't work without it. 
 
-    driver = setup_driver(download_path)
-    download_with_selenium(driver, url, download_link_css_selector)
-    # Make sure to close the driver
-    driver.quit()
+    download_file(url, target_path)
 
 if __name__ == "__main__":
     main()
