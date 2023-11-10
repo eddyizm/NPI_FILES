@@ -1,4 +1,5 @@
 import requests
+from get_monthly_url import GetURL
 
 BASE_URL='https://download.cms.gov'
 BASE_PATH='nppes'
@@ -18,8 +19,13 @@ def download_file(url, target_path):
 def download_deactivated_npi_report_zip():
     """'target_path' is the directory of your project"""
     # TODO Needs a way to change the URL every month.
+    #class created in get_monthly_url.py
+    class_object = GetURL()
+
     # This URL will change every second Monday of the month.
-    file_name = 'NPPES_Deactivated_NPI_Report_100923.zip' # filenamne to be generated dynamically from scrape
+    # get_monthly_url() gets the second Monday of the month and rewrites the URL accordingly
+    file_name = class_object.get_monthly_url() # filenamne to be generated dynamically from scrape
+    
     url = f'{BASE_URL}/{BASE_PATH}/{file_name}'
     target_path = f'tmp/{file_name}'
 
