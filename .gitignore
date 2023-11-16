@@ -161,3 +161,45 @@ cython_debug/
 
 # project download folder
 src/tmp/*
+
+# Angular - For safety, only looks for items in Frontend folder
+# Compiled output
+[Ff]rontend/dist
+[Ff]rontend/tmp
+[Ff]rontend/out-tsc
+[Ff]rontend/bazel-out
+
+# Node
+[Ff]rontend/node_modules
+[Ff]rontend/npm-debug.log
+[Ff]rontend/yarn-error.log
+
+# IDEs and editors
+[Ff]rontend/.idea/
+[Ff]rontend/.project
+[Ff]rontend/.classpath
+[Ff]rontend/.c9/
+[Ff]rontend/*.launch
+[Ff]rontend/.settings/
+[Ff]rontend/*.sublime-workspace
+
+# Visual Studio Code
+[Ff]rontend/.vscode/*
+[Ff]rontend/!.vscode/settings.json
+[Ff]rontend/!.vscode/tasks.json
+[Ff]rontend/!.vscode/launch.json
+[Ff]rontend/!.vscode/extensions.json
+[Ff]rontend/.history/*
+
+# Miscellaneous
+[Ff]rontend/.angular/cache
+[Ff]rontend/.sass-cache/
+[Ff]rontend/connect.lock
+[Ff]rontend/coverage
+[Ff]rontend/libpeerconnection.log
+[Ff]rontend/testem.log
+[Ff]rontend/typings
+
+# System files
+[Ff]rontend/.DS_Store
+[Ff]rontend/Thumbs.db
