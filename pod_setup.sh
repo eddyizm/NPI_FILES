@@ -17,3 +17,4 @@ podman run -d --pod=npi_file -v dbdata:/var/lib/postgresql/data -p 5432:5432 --e
 # add volume to store file data - this should probably be s3 or something along those lines in the future.
 # containerize django api
 # containerize front end
+# add webserver nginx container to tie it all together
