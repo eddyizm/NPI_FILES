@@ -8,78 +8,86 @@ def home_view(request,*args, **kwargs):
         """
         <!DOCTYPE html>
         <html lang="en">
-
         <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>NPI Files</title>
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    margin: 0;
-                    padding: 0;
-                    background-color: #f4f4f4;
-                }
-
-                header {
-                    background-color: #333;
-                    color: #fff;
-                    padding: 15px;
-                    text-align: center;
-                }
-
-                .container {
-                    width: 80%;
-                    margin: 20px auto;
-                }
-
-                .file-list {
-                    list-style: none;
-                    padding: 10;
-                }
-
-                .file-list li {
-                    margin-bottom: 10px;
-                    padding: .5em;
-                }
-
-                .download-btn {
-                    padding: 8px 15px;
-                    background-color: #007bff;
-                    color: #fff;
-
-                    text-decoration: none;
-                    border-radius: 5px;
-                }
-
-                .download-btn:hover {
-                    background-color: #0056b3;
-                }
-            </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>NPI Files</title>
+        <style>
+            /* Inline CSS */
+            body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            }
+            header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            }
+            .container {
+            width: 80%;
+            margin: 20px auto;
+            }
+            .file-section {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            }
+            .file {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 10px;
+            width: 30%;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+            }
+            .file:hover {
+            transform: scale(1.05);
+            }
+            footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            }
+        </style>
         </head>
-
         <body>
-            <header>
-                <h1>NPI Files</h1>
-            </header>
-
-            <div class="container">
-                <ul class="file-list">
-                    <li>
-                        <span>NPI File</span>
-                        <a href="api_v1/" class="download-btn">Download</a>
-                    </li>
-                    <li>
-                        <span>SCC File</span>
-                        <a href="api_v1/docs" class="download-btn">Download</a>
-                    </li>
-                    <li>
-                        <span>Admin Access</span>
-                        <a href="admin/" class="download-btn">GO!</a>
-                    </li>
-                    <!-- Add more files as needed -->
-                </ul>
+        <header>
+            <h1>NPI Files</h1>
+        </header>
+        <div class="container">
+            <div class="file-section">
+            <!-- File links -->
+            <div class="file">
+                <h2>NPI Files</h2>
+                <a href="api_v1">Download</a>
             </div>
+            <div class="file">
+                <h2>SCC Files</h2>
+                <a href="api_v1/docs">Download</a>
+            </div>
+             <div class="file">
+                <h2>Admin Files</h2>
+                <a href="admin">Download</a>
+            </div>
+            </div>
+        </div>
+        <footer>
+            <p>&copy; 2023 NPI Files. All rights reserved.</p>
+        </footer>
+        <script>
+            // Inline JavaScript (if needed)
+            // You can add scripts here for any specific functionalities
+        </script>
         </body>
         </html>
         """)
