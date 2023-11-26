@@ -16,17 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from ninja import NinjaAPI
-
-
-api = NinjaAPI()
-
-@api.get("/add")
-def add(request, a: int, b: int):
-    return {"result": a + b}
-
+from api_v1.api import api
+from api_v1.views import home_view
 
 urlpatterns = [
+    path('', home_view, name='home'),
     path('admin/', admin.site.urls),
-    path("api/", api.urls),
+    path('api_v1/', api.urls),
 ]
