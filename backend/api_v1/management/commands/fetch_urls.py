@@ -1,50 +1,65 @@
 import requests
 import re
 import urllib.parse
-import json
 
+from django.core.management.base import BaseCommand, CommandError
+from api_v1.models import DownloadURL
+from api_v1.schemas.download_url import DownloadURLIn
 
-def fetch_current_zip_urls(base_url):
-    response = requests.get(base_url)
-    relative_urls = re.findall(
-        r"href='(\./NPPES_Data_Dissemination_[^']*?\.zip)'", response.text
-    )
-    current_urls = [urllib.parse.urljoin(base_url, url) for url in relative_urls]
-    return current_urls
-
-
-def load_stored_urls(file_path):
-    try:
-        with open(file_path, "r") as file:
-            return json.load(file)
-    except FileNotFoundError:
-        return []
-
-
-def save_urls(file_path, urls):
-    with open(file_path, "w") as file:
-        json.dump(urls, file)
-
-
-def get_new_urls(base_url, file_path):
-    current_urls = fetch_current_zip_urls(base_url)
-    stored_urls = load_stored_urls(file_path)
-
-    # Find new or updated URLs
-    new_urls = [url for url in current_urls if url not in stored_urls]
-
-    # Update the stored URLs file
-    save_urls(file_path, current_urls)
-
-    return new_urls
-
-
-# Example usage
-base_url = (
-    "http://download.cms.gov/nppes/NPI_Files.html"  # Replace with the actual base URL
+NPI_FILES_URL = (
+    "http://download.cms.gov/nppes/NPI_Files.html" 
 )
-file_path = (
-    r"{YOUR_DIRECTORY}stored_urls.json"  # Path to the file where URLs are stored
-)
-new_urls = get_new_urls(base_url, file_path)
-print("New or Updated URLs:", new_urls)
+
+
+class Command(BaseCommand):
+    """doc link https://docs.djangoproject.com/en/4.2/howto/custom-management-commands/"""
+
+    help = "Download url and parse out zip files"
+
+    # def add_arguments(self, parser):
+    #     parser.add_argument("poll_ids", nargs="+", type=int)
+
+    def handle(self, *args, **options):
+        self.get_new_urls(NPI_FILES_URL)
+
+    def fetch_current_zip_urls(self, base_url):
+        response = requests.get(base_url)
+        relative_urls = re.findall(
+            r"href='(\./NPPES_Data_Dissemination_[^']*?\.zip)'", response.text
+        )
+        current_urls = [urllib.parse.urljoin(base_url, url) for url in relative_urls]
+        return current_urls
+
+    def map_urls_to_schema(self, current_urls):
+        self.stdout.write(self.style.HTTP_INFO("Mapping urls to Schema..."))
+        try:
+            mapped_urls = []
+            for url in current_urls:
+                fname = url.replace("http://download.cms.gov/nppes/", "")
+                mapped_urls.append(
+                    DownloadURLIn(
+                        file_name=fname, created_by="fetch_urls.py", url=url
+                    ).dict()
+                )
+            breakpoint()
+            return mapped_urls
+        except Exception:
+            raise CommandError("Error mapping urls")
+
+    def save_urls(self, download_urls: list):
+        self.stdout.write(
+            self.style.HTTP_INFO("Saving urls in bulk create statement...")
+        )
+        DownloadURL.objects.bulk_create([DownloadURL(**item) for item in download_urls])
+
+    def get_new_urls(self, base_url: str):
+        self.stdout.write(self.style.HTTP_INFO("Checking URL for new data..."))
+        current_urls = self.fetch_current_zip_urls(base_url)
+        self.stdout.write(self.style.HTTP_INFO(f"Found {len(current_urls)} zip urls"))
+
+        # Find new or updated URLs
+        # TODO this needs to check the db
+        urls = self.map_urls_to_schema(current_urls)
+        # Update the stored URLs file
+        self.save_urls(urls)
+        self.stdout.write(self.style.SUCCESS("URLS loaded to database successfully"))
