@@ -1,16 +1,16 @@
 from django.urls import path
-from ninja import NinjaAPI
+from ninja import Router
 
-api = NinjaAPI()
+router = Router()
 
 # api.add_router("/events/", events_router)
 
 
-@api.get("/")
+@router.get("/")
 def home_page(request):
     return {"message": "hello world"}
 
 
-@api.get("/add")
+@router.get("/add")
 def add(request, a: int, b: int):
     return {"result": a + b}

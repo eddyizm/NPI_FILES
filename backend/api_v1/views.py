@@ -69,11 +69,11 @@ def home_view(request,*args, **kwargs):
             <!-- File links -->
             <div class="file">
                 <h2>NPI Files</h2>
-                <a href="api_v1">Download</a>
+                <a href="api/v1/">Download</a>
             </div>
             <div class="file">
                 <h2>SCC Files</h2>
-                <a href="api_v1/docs">Download</a>
+                <a href="api/docs">Download</a>
             </div>
              <div class="file">
                 <h2>Admin Files</h2>
