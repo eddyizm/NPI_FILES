@@ -2,7 +2,7 @@ from django.db import models
 
 
 class DownloadURL(models.Model):
-    file_name = models.CharField(max_length=100)
+    file_name = models.CharField(max_length=100, unique=True)
     created_by = models.CharField(max_length=64)
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
