@@ -6,9 +6,7 @@ from django.core.management.base import BaseCommand, CommandError
 from api_v1.models import DownloadURL
 from api_v1.schemas.download_url import DownloadURLIn
 
-NPI_FILES_URL = (
-    "http://download.cms.gov/nppes/NPI_Files.html" 
-)
+NPI_FILES_URL = "http://download.cms.gov/nppes/NPI_Files.html"
 
 
 class Command(BaseCommand):
@@ -58,8 +56,8 @@ class Command(BaseCommand):
         self.stdout.write(self.style.HTTP_INFO(f"Found {len(current_urls)} zip urls"))
 
         # Find new or updated URLs
-        # TODO this needs to check the db
+        # TODO this needs to check the db or better yet, make the file name a unique field in the db, so inserts fail.
         urls = self.map_urls_to_schema(current_urls)
-        # Update the stored URLs file
+
         self.save_urls(urls)
         self.stdout.write(self.style.SUCCESS("URLS loaded to database successfully"))
