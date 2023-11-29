@@ -1,3 +1,7 @@
+from django.core.management.base import BaseCommand
+
+from api_v1.models import DownloadURL
+
 import requests
 
 BASE_URL = "https://download.cms.gov"
@@ -26,16 +30,31 @@ def download_deactivated_npi_report_zip():
     download_file(url, target_path)
 
 
-def get_page_contents(url: str) -> str:
-    """Return main page contents as text. grep results to find pattern or use beautitul soup
-    This should allow use to find all the file names we need, check against the DB or some other data store to see if we have
-    received that file yet and retrieve to extract the data.
-    """
-    response = requests.get(url, allow_redirects=True)
-    response.raise_for_status()
-    return response.text
+class Command(BaseCommand):
+    """doc link https://docs.djangoproject.com/en/4.2/howto/custom-management-commands/"""
 
+    help = "Closes the specified poll for voting"
 
-if __name__ == "__main__":
-    # get_page_contents(INFO_URL)  # redirected output to page.html for sample
-    download_deactivated_npi_report_zip()
+    def add_arguments(self, parser):
+        # required named args
+        # parser.add_argument("poll_ids", nargs="+", type=int)
+
+        # optional args
+        parser.add_argument(
+            "-d",
+            "--download",
+            action="store_true",
+            help="Download files",
+        )
+
+    def handle(self, *args, **options):
+        # self.stdout.write(self.style.HTTP_INFO(f"poll id: {arg1}"))
+        self.stdout.write(self.style.SUCCESS("Starting get download"))
+        new_files = self.get_npi_files()
+        for file in new_files:
+            self.stdout.write(self.style.HTTP_INFO(file))
+
+    def get_npi_files(self) -> list[DownloadURL]:
+        files = DownloadURL.objects.filter(downloaded=False)
+        self.stdout.write(self.style.HTTP_INFO(f"files to download: {len(files)}"))
+        return files
