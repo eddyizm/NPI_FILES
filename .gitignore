@@ -1,3 +1,7 @@
+# data files
+backend/raw_data/
+backend/tmp/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
