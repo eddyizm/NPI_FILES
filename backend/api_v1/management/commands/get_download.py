@@ -34,7 +34,7 @@ class Command(BaseCommand):
         new_files = self.get_npi_files()
         for file in new_files:
             # self.stdout.write(self.style.HTTP_INFO(file))
-            self.download_nppes_data_dissemination_zip_file(file)
+            _id = self.download_nppes_data_dissemination_zip_file(file)
 
     def get_npi_files(self) -> list[DownloadURL]:
         files = DownloadURL.objects.filter(downloaded=False)
@@ -55,7 +55,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR(f'Error downloading file:\n{err}'))
             return response.status_code
 
-    def download_nppes_data_dissemination_zip_file(self, nppes_data: DownloadURL) -> id:
+    def download_nppes_data_dissemination_zip_file(self, nppes_data: DownloadURL) -> int:
         """'download nppes data zip files. """
         # TODO Add zip extraction, delete zips and load flat files into db.
         url = nppes_data.url

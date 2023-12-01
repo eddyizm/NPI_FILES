@@ -8,9 +8,9 @@ class DownloadURL(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
     url = models.URLField()
     downloaded = models.BooleanField(default=False)
-    file_type = models.CharField(max_length=64)
-    text_file_name = models.CharField(max_length=100, unique=True)
-    text_file_path = models.CharField(max_length=100)
+    file_type = models.CharField(max_length=64, null=True, blank=True)
+    text_file_name = models.CharField(max_length=100, null=True, blank=True)
+    text_file_path = models.CharField(max_length=100, null=True, blank=True)
     loaded_to_db = models.BooleanField(default=False)
 
     def __str__(self):
