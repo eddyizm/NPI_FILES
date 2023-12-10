@@ -1,9 +1,0 @@
-services:
-  frontendapp:
-    container_name: frontend-container
-    build: .
-    image: frontend:v1
-    ports:
-      - 80:80
-    expose:
-      - 80
