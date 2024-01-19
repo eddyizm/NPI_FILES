@@ -4,7 +4,7 @@ services:
   db:
     image: docker.io/postgres:latest
     volumes:
-      - dbdata:/var/lib/postgresql/data 
+      - npi_files_dbdata:/var/lib/postgresql/data 
     ports:
       - 5432:5432
     env_file:
@@ -20,5 +20,5 @@ services:
         - 4200
     
 volumes:
-  dbdata:
+  npi_files_dbdata:
     

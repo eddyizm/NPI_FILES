@@ -1,23 +1,19 @@
-FROM python:3.10.13-alpine3.18
-ADD backend/requirements.txt /app/requirements.txt
+FROM docker.io/python:3.10.1-slim
 
-RUN set -ex \
-    && apk add --no-cache --virtual .build-deps postgresql-dev build-base \
-    && python -m venv /env \
-    && /env/bin/pip install --upgrade pip \
-    && /env/bin/pip install --no-cache-dir -r /app/requirements.txt \
-    && runDeps="$(scanelf --needed --nobanner --recursive /env \
-        | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
-        | sort -u \
-        | xargs -r apk info --installed \
-        | sort -u)" \
-    && apk add --virtual rundeps $runDeps \
-    && apk del .build-deps
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-ADD backend /app
-WORKDIR /app
+COPY backend/requirements.txt requirements.txt
+RUN apt-get update \
+    && apt-get -y install libpq-dev gcc 
 
-ENV VIRTUAL_ENV /env
-ENV PATH /env/bin:$PATH
+RUN python -m pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+COPY backend backend
+WORKDIR /backend
+
+ENTRYPOINT ["python", "manage.py"]
+CMD ["runserver", "0.0.0.0:8000"]
 
 EXPOSE 8000
