@@ -29,3 +29,5 @@ These values are references in django's `settings.py` file
     python backend/manage.py runserver 
 
 I suspect you need to create a super user here before run server or soon after.
+
+`python manage.py createsuperuser`
