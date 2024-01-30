@@ -39,7 +39,6 @@ class Command(BaseCommand):
                         file_name=fname, created_by="fetch_urls.py", url=url
                     ).dict()
                 )
-            breakpoint()
             return mapped_urls
         except Exception:
             raise CommandError("Error mapping urls")
