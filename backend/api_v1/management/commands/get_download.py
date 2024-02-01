@@ -18,7 +18,7 @@ RAW_DATA_DIR = os.path.join(
 class Command(BaseCommand):
     """doc link https://docs.djangoproject.com/en/4.2/howto/custom-management-commands/"""
 
-    help = "Closes the specified poll for voting"
+    help = "Download files - this can be seperated into unzipping and cleaning up as well"
 
     def add_arguments(self, parser):
         # required named args
@@ -33,11 +33,9 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        # self.stdout.write(self.style.HTTP_INFO(f"poll id: {arg1}"))
         self.stdout.write("Starting get download")
         new_files = self.get_npi_files()
         for file in new_files:
-            # self.stdout.write(self.style.HTTP_INFO(file))
             zip_path = self.download_nppes_data_dissemination_zip_file(file)
             self.stdout.write(f"Extracting zip at path: {zip_path}")
             self.extract_file_and_load_to_db(file, zip_path)
