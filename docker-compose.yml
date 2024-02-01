@@ -8,16 +8,23 @@ services:
     ports:
       - 5432:5432
     env_file:
-      - src/.env
+      - backend/.env
 
-  frontendapp:
-      container_name: frontend-container
-      build: ./Frontend
-      image: frontend:v1
+  django_app:
+      container_name: django-app
+      build: .
+      image: npi_backend:latest
       ports:
-        - 4200:4200
-      expose:
-        - 4200
+        - 8080:8000
+
+  # frontendapp:
+  #     container_name: frontend-container
+  #     build: ./Frontend
+  #     image: frontend:v1
+  #     ports:
+  #       - 4200:4200
+  #     expose:
+  #       - 4200
     
 volumes:
   npi_files_dbdata:
