@@ -8,26 +8,20 @@ work in progress... `pod_setup.sh`
 
 ## Local Development for Django
 
-Need to set up Postgres, either locally or in a container. The container is my choice as it makes it easier when testing with the containerized django app. The instructions below are specific to local Postgres environment.
+The instructions below are specific to local Postgres environment. This is the current default method.
+
+Once the application is more flushed out, this repo will be updated for instructions to containerize with a Postgres database.
 
 ## Prerequisite
 
-This requirement will have you update the `.env.dummy` file with appropriate values and rename it to `.env` so you don't check in any passwords or settings. These values are referenced in Django's `settings.py` file
+This requirement will have you create a copy of `.env.dummy` and update the file with appropriate values so you don't check in any passwords or settings. These values are referenced in Django's `settings.py` file
 
 1. Navigate to `NPI_FILES/backend`
 
-2. Create a copy of `.env.dummy`
+2. Create a copy of `.env.dummy`  
+   `cp .env.dummy .env`
 
-3. Update all the relevant fields with your local postgres.
-
-```
-  #Sample
-  POSTGRES_USER=postgrestestuser
-  POSTGRES_PASSWORD=postgrespassword
-  POSTGRES_SERVER=localhost
-  POSTGRES_DB=postgresdb
-  POSTGRES_PORT=1234
-```
+3. Update all the relevant fields with your local postgres in `backend/.env`.
 
 ## Backend setup
 
