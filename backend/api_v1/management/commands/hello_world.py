@@ -19,5 +19,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         _delete = options["delete"]
-        # self.stdout.write(self.style.HTTP_INFO(f"poll id: {arg1}"))
+        self.stdout.write(self.style.HTTP_INFO(f"delete option: {_delete}"))
         self.stdout.write(self.style.SUCCESS("HELLO WORLD"))
