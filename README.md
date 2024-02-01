@@ -31,3 +31,25 @@ These values are references in django's `settings.py` file
 I suspect you need to create a super user here before run server or soon after.
 
 `python manage.py createsuperuser`
+
+---
+# Custom Management Commands
+
+These commands are used to run automated tasks. The order in this sense matters as later this can be used with an orchestration tool. 
+
+1. fetch_urls 
+    - scrapes urls of npi zip files to download
+2. get_download 
+    - this one is getting list of files to download
+    - downloading files that have yet to be downloaded
+    - then loading them up to the db.
+    - needs work and to be cleaned up. 
+3. load_large_csv  
+    - This function upload csv to a target table using pg command.
+    - need to remember why i did this, probably for the 9gb file
+
+misc. 
+
+4. hello_world
+    - just a dummy command to verify things are working and build use as a template.
+    
