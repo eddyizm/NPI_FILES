@@ -60,9 +60,12 @@ These commands are used to run automated tasks. The order in this sense matters 
     - This function upload csv to a target table using pg command.
     - need to remember why i did this, probably for the 9gb file
 
-misc. 
+4. seed_sample_data 
+    - loads npi sample file with a 110 records
 
-4. hello_world
+Misc 
+
+1. hello_world
     - just a dummy command to verify things are working and build use as a template.
     
 

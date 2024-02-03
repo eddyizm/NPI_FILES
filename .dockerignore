@@ -3,5 +3,6 @@ __pycache__/
 .vscode
 .mypy_cache/
 *.pyc
-backend/tmp/
 backend/raw_data/
+backend/tmp/*.zip
+backend/tmp/npidata*.csv
