@@ -354,6 +354,7 @@ def pg_load_table(file_path):
                 FROM STDOUT CSV HEADER
             '''
             cursor.copy_expert(query, f)
+            print("Loading to db...")
             cursor.execute("commit;")
             ftime = datetime.datetime.now()
             print(f"Loaded data successfully: {ftime}")
