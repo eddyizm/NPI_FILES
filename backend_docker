@@ -13,7 +13,6 @@ RUN python -m pip install --upgrade pip && \
 COPY backend backend
 WORKDIR /backend
 
-ENTRYPOINT ["python", "manage.py"]
-CMD ["runserver", "0.0.0.0:8000"]
+CMD ["gunicorn", "-c", "gunicorn.conf.py"]
 
 EXPOSE 8000

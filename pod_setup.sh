@@ -9,6 +9,8 @@ echo "Creating infra pod with exposed ports 8080/8081"
 podman pod create -p 8080:8000 -p 5432:5432 --name=npi_file
 # this port is only for local dev, don't want ot expose this when putting on the server.
 # -p 5432:5432
+echo "Starting npi file pod..."
+podman pod start npi_file 
 
 # run postgres db
 echo "Standing up postgres..."
@@ -22,7 +24,12 @@ podman build -t npi_backend -f backend_docker
 echo "Spin up django"
 podman run -d --pod=npi_file --name=npi_backend_django npi_backend
 
-# containerize front end
-# add webserver nginx container to tie it all together
-# todo 
+# TODO 
+# PENDING DOMAIN
+# Add data domain for certificates
+# echo "Starting Caddy webserver container in pod"
+# podman run -d --pod=npi_file \
+#     -v $PWD/Caddyfile:/etc/caddy/Caddyfile:z \
+#     -v letsencrypt:/data \
+
 # add volume to store file data - this should probably be s3 or something along those lines in the future.
