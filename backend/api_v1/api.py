@@ -19,5 +19,5 @@ def add(request, a: int, b: int):
 @router.get("/providers", response=List[NPISearchFilter])
 def list_providers(request, filters: NPISearchFilter = Query(...)):
     # TODO this table needs to be refactored to smaller subset.
-    npi_providers = NpiRawData.objects.filter(filters.get_filter_expression())
+    npi_providers = NpiRawData.objects.filter(filters.get_filter_expression())[:20]
     return npi_providers

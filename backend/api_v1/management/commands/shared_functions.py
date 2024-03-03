@@ -343,7 +343,7 @@ def pg_load_table(file_path):
     try:
         print(f"Connecting to Database: {dtime}")
         with connection.cursor() as cursor:
-            f = open(file_path, "r")
+            f = open(file_path, "r", buffering=2**10)
             table_name = "api_v1_npirawdata"
             cursor.execute("Truncate {} Cascade;".format(table_name))
             print("Truncated {}".format(table_name))
@@ -351,9 +351,12 @@ def pg_load_table(file_path):
             column_names = ','.join('"{0}"'.format(k) for k in KEYS)
             query = f'''
                 COPY {table_name}({column_names})
-                FROM STDOUT CSV HEADER
+                FROM STDOUT
+                WITH DELIMITER ',' CSV HEADER
             '''
+            print("Loading to db...")
             cursor.copy_expert(query, f)
+            print("commiting...")
             cursor.execute("commit;")
             ftime = datetime.datetime.now()
             print(f"Loaded data successfully: {ftime}")
